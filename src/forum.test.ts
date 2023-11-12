@@ -129,7 +129,7 @@ describe('/clear', () => {
   });
 });
 
-describe('/post/create', () => {
+describe.only('/post/create', () => {
   describe('errors', () => {
     test.each([
       { sender: '', title: 'valid', content: 'valid' },

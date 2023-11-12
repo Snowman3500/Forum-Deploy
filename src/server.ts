@@ -16,7 +16,7 @@ const SERVER_URL = `${url}:${PORT}`;
 const app = express();
 
 const KV_REST_API_URL="https://joint-escargot-37807.upstash.io";
-const KV_REST_API_TOKEN="AZOvASQgYzgxMWQ0NGEtZTI5Yy00NjlkLTk3OTgtMDAyZGViY2ZmNTNmNTVkYmRkOWEzNjkzNDdlOWExMzhlNTUxZDI5M2VkOWE=";
+const KV_REST_API_TOKEN="AZOvASQgYzgxMWQ0NGEtZTI5Yy00NjlkLTk3OTgtMDAyZGViY2ZmNTNmNTVkYmRkOWEzNjkzNDdlOWExMzhlNTUxZDI5M2VkOWE";
 
 const database = createClient({
   url: KV_REST_API_URL,
@@ -29,13 +29,14 @@ app.use(express.json());
 app.use(morgan('dev'));
 
 app.get('/data', async (req: Request, res: Response) => {
-  const data = await database.hgetall('data: forum');
+  const data = await database.hgetall('data:Forum-Deploy');
   res.status(200).json({ data });
 });
 
 app.put('/data', async (req: Request, res: Response) => {
   const { data } = req.body;
-  await database.hset("data:forum", { data });
+  await database.hmset("data:Forum-Deploy", { data });
+  console.log(data)
   return res.status(200).json({});
 });
 

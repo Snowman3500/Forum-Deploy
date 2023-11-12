@@ -71,22 +71,22 @@ const requestHelper = (method: HttpVerb, path: string, payload: object) => {
   }
 
   const res = request(method, DEPLOYED_URL + path, { qs, json, timeout: 20000 });
-  console.log(res)
   return JSON.parse(res.body.toString());
 };
 
 const getData = (): Data => {
-try {
-  const res = requestHelper('GET', '/data', {}).response as Data;
-  return res;
-} catch (e) {
-  return {
-    posts: [],
-    comments: [],
-  };
-}
+  try {
+    const res = requestHelper('GET', '/data', {});
+    console.log(res)
+    return res.data;
+  } catch (e) {
+    return {
+      posts: [],
+      comments: [],
+    };
+  }
 };
-
+  
 export const setData = (newData: Data) => {
   requestHelper('PUT', '/data', { data: newData });
 };
@@ -114,8 +114,7 @@ const checkValidPostDetails = (sender: string, title: string, content: string) =
 export function postCreate(sender: string, title: string, content: string) {
   checkValidPostDetails(sender, title, content);
   const data = getData();
-  console.log("GET DATA IS /////////////////////////////////////////////////////////////////////////")
-  console.log(data)
+  
   const postId = data.posts.length * 2 + 2041;
   data.posts.push({ postId, sender, title, content, timeSent: getTimeStamp() });
   setData(data);
@@ -124,6 +123,7 @@ export function postCreate(sender: string, title: string, content: string) {
 
 export function postsList() {
   const data = getData();
+  console.log(data)
   const posts = data.posts
     .map(p => ({
       postId: p.postId,
@@ -137,6 +137,8 @@ export function postsList() {
 
 export function clear() {
   const data = getData();
+  console.log("I'm going to fucking kill myself!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+  console.log(data)
   data.posts = [];
   data.comments = [];
   setData(data);
