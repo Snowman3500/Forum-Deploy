@@ -8,11 +8,21 @@ import { echo } from './echo';
 import errorHandler from './errorHandler';
 import { DATABASE_FILE, setData, postCreate, postsList, clear } from './forum';
 import { port, url } from './config.json';
+import { createClient } from '@vercel/kv';
 
 const PORT: number = parseInt(process.env.PORT || port);
 const SERVER_URL = `${url}:${PORT}`;
 
 const app = express();
+
+const KV_REST_API_URL="https://joint-escargot-37807.upstash.io";
+const KV_REST_API_TOKEN="AZOvASQgYzgxMWQ0NGEtZTI5Yy00NjlkLTk3OTgtMDAyZGViY2ZmNTNmNTVkYmRkOWEzNjkzNDdlOWExMzhlNTUxZDI5M2VkOWE=";
+
+const database = createClient({
+  url: KV_REST_API_URL,
+  token: KV_REST_API_TOKEN,
+});
+
 
 app.use(cors());
 app.use(express.json());
