@@ -142,7 +142,7 @@ describe('/post/create', () => {
   });
 
   describe('success', () => {
-    test.only('Successful creation', () => {
+    test('Successful creation', () => {
       const post = postCreate('Emily', 'COMP1531 Post', 'Welcome to COMP1531!');
       expect(post).toStrictEqual({ postId: expect.any(Number) });
     });

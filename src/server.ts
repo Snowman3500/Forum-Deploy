@@ -28,6 +28,17 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan('dev'));
 
+app.get('/data', async (req: Request, res: Response) => {
+  const data = await database.hgetall('data: forum');
+  res.status(200).json({ data });
+});
+
+app.put('/data', async (req: Request, res: Response) => {
+  const { data } = req.body;
+  await database.hset("data:forum", { data });
+  return res.status(200).json({});
+});
+
 app.get('/', (req: Request, res: Response) => {
   console.log('Print to terminal: someone accessed our root url!');
   res.json({ message: "Welcome to Lab05 Forum Server's root URL!" });

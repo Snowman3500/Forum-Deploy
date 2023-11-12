@@ -71,13 +71,14 @@ const requestHelper = (method: HttpVerb, path: string, payload: object) => {
   }
 
   const res = request(method, DEPLOYED_URL + path, { qs, json, timeout: 20000 });
+  console.log(res)
   return JSON.parse(res.body.toString());
 };
 
 const getData = (): Data => {
 try {
-  const res = requestHelper('GET', '/data', {});
-  return res.data;
+  const res = requestHelper('GET', '/data', {}).response as Data;
+  return res;
 } catch (e) {
   return {
     posts: [],
@@ -113,6 +114,8 @@ const checkValidPostDetails = (sender: string, title: string, content: string) =
 export function postCreate(sender: string, title: string, content: string) {
   checkValidPostDetails(sender, title, content);
   const data = getData();
+  console.log("GET DATA IS /////////////////////////////////////////////////////////////////////////")
+  console.log(data)
   const postId = data.posts.length * 2 + 2041;
   data.posts.push({ postId, sender, title, content, timeSent: getTimeStamp() });
   setData(data);
